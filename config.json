@@ -1,0 +1,9 @@
+# 说明([]内为可选参数，用 | 分隔)：
+# target_path：需要分类的素材所在路径，支持子文件夹
+# classify_by_ext：是否按拓展名分类(同时启用拓展名分类和EXIF分类时，优先进行EXIF分类，如"拍摄时间-Raw|JPG"层级) [True | False]
+# exif_mode：EXIF分类方式，支持按相机、拍摄日期分类(根据作者实际经验，该两项相对常用) [0:相机机型 | 1:拍摄日期 | "":不进行EXIF分类]
+{
+    "target_path": "",
+    "classify_by_ext": true,
+    "exif_mode": ""
+}
