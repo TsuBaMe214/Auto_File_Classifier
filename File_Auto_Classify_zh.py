@@ -4,11 +4,11 @@
 
 """
 @Author: Swallow Du (https://github.com/TsuBaMe214)
-Updated: 2025-10-17
-Description: 这个工具的作用是进行文件分类。
-            你可以根据文件扩展名，或是EXIF信息（特别针对摄影师添加的功能）对文件进行分类。
-            参数部分，由config.json控制，可以按照自己的需求修改参数。
-Version: 1.0.0
+Updated: 2025-10-18
+Description: 更新一处逻辑。
+            对于非图片及无EXIF信息的文件，get_exif_metadata()的时候会出现无tag解析导致无法printable的情况。
+            因此加上while循环，判断仅当image_info.exif_classify_mode非空时才读取exif信息。
+Version: 1.0.1
 
 功能说明:
     - 对路径下文件按照文件类型（文件拓展名）进行分类
@@ -229,7 +229,10 @@ def main():
     image_info.is_ext_classify = configmanager.config["classify_by_ext"]
     # 读取文件及EXIF信息
     image_info.get_file_info()
-    image_info.get_exif_metadata()
+    # 当"exif_mode"非空时才读取exif信息
+    while image_info.exif_classify_mode:
+        image_info.get_exif_metadata()
+        break
     # 进行分类操作，优先exif分类
     image_info.classify_exif()
     image_info.classify_expand_name()

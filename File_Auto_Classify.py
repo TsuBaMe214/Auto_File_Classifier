@@ -4,10 +4,11 @@
 
 """
 @Author: Swallow Du (https://github.com/TsuBaMe214)
-Updated: 2025-10-17
-Description: This tool is used to classify files.
-            You can classify your files by file extension or by EXIF info (for photographers).
-            Adjustable parameters can be controlled via config.json.
+Updated: 2025-10-18
+Description: Fix a bug.
+            For file not image or image without EXIF info, when func get_exif_metadata() could not decode tag,
+            thus printable step would not successful. So I add a while loop to judge.
+            Only when the image_info.exif_classify_mode is not empty, then execute the func get_exif_metadata().
 Version: 1.0.0
 
 功能说明:
@@ -229,7 +230,10 @@ def main():
     image_info.is_ext_classify = configmanager.config["classify_by_ext"]
     # 读取文件及EXIF信息
     image_info.get_file_info()
-    image_info.get_exif_metadata()
+    # 当"exif_mode"非空时才读取exif信息
+    while image_info.exif_classify_mode:
+        image_info.get_exif_metadata()
+        break
     # 进行分类操作，优先exif分类
     image_info.classify_exif()
     image_info.classify_expand_name()
